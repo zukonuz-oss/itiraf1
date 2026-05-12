@@ -1,6 +1,9 @@
 <?php
-$bot_token = "8761753927:AAFrVMhziZNflfozhQA6d1V1INQn7_iBi7A";
-$chat_id = "6671499665";
+$bot_token = "8840723831:AAFTK85plsprSI2FZ6ggIJy5f6WZfiu3RNE";
+$chat_ids = [
+    "7975374182",  // 1. hesap
+    "6671499665"   // 2. hesap
+];
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode(['success' => false, 'error' => 'Sadece POST kabul edilir']);
@@ -13,20 +16,23 @@ if (empty($öneri_text)) {
     exit;
 }
 
+$message = "🆕 YENİ İTİRAF\n\n📝 " . $öneri_text . "\n\n🕐 " . date('d.m.Y H:i');
 
-$message = "🆕 YENİ ÖNERİ • İSTEK\n\n📝 " . $öneri_text . "\n\n🕐 " . date('d.m.Y H:i');
+// Tüm hesaplara metni gönder
+foreach ($chat_ids as $chat_id) {
+    $url = "https://api.telegram.org/bot{$bot_token}/sendMessage";
+    $data = ['chat_id' => $chat_id, 'text' => $message];
+    
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+    curl_exec($ch);
+    curl_close($ch);
+}
 
-$url = "https://api.telegram.org/bot{$bot_token}/sendMessage";
-$data = ['chat_id' => $chat_id, 'text' => $message];
-
-$ch = curl_init($url);
-curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_TIMEOUT, 15);
-$result = curl_exec($ch);
-curl_close($ch);
-
+// Medya varsa tüm hesaplara gönder
 if (isset($_FILES['media']) && $_FILES['media']['error'] === 0) {
     
     $file_tmp = $_FILES['media']['tmp_name'];
@@ -47,25 +53,22 @@ if (isset($_FILES['media']) && $_FILES['media']['error'] === 0) {
         $field = 'document';
     }
     
-    $post_fields = [
-        'chat_id' => $chat_id,
-        $field => new CURLFile($file_tmp, $file_type, $file_name)
-    ];
-    
-    $ch2 = curl_init();
-    curl_setopt($ch2, CURLOPT_URL, $media_url);
-    curl_setopt($ch2, CURLOPT_POST, 1);
-    curl_setopt($ch2, CURLOPT_POSTFIELDS, $post_fields);
-    curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch2, CURLOPT_TIMEOUT, 120);
-    curl_setopt($ch2, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-    $media_result = curl_exec($ch2);
-    $curl_error = curl_error($ch2);
-    curl_close($ch2);
-    
-    if ($curl_error) {
-        echo json_encode(['success' => false, 'error' => 'Medya hatası: ' . $curl_error]);
-        exit;
+    // Tüm hesaplara medyayı gönder
+    foreach ($chat_ids as $chat_id) {
+        $post_fields = [
+            'chat_id' => $chat_id,
+            $field => new CURLFile($file_tmp, $file_type, $file_name)
+        ];
+        
+        $ch2 = curl_init();
+        curl_setopt($ch2, CURLOPT_URL, $media_url);
+        curl_setopt($ch2, CURLOPT_POST, 1);
+        curl_setopt($ch2, CURLOPT_POSTFIELDS, $post_fields);
+        curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch2, CURLOPT_TIMEOUT, 120);
+        curl_setopt($ch2, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+        curl_exec($ch2);
+        curl_close($ch2);
     }
 }
 
