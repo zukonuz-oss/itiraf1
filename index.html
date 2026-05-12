@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anonim Öneri • İstek</title>
+    <title>Anonim İtiraf </title>
     <link rel="icon" type="image/x-icon" href="favicon.ico" >
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -102,10 +102,10 @@
 </head>
 <body>
     <div class="container" id="formContainer">
-        <h1>🫣 Anonim Öneri • İstek</h1>
+        <h1>🫣 Anonim İtiraf</h1>
         <p class="subtitle">Kimliğin gizli kalacak, rahat ol</p>
         <form id="öneriistekForm">
-            <textarea name="öneri" placeholder="Öneri • İsteğini Yaz..." required maxlength="2000"></textarea>
+            <textarea name="öneri" placeholder="İtirafını Yaz..." required maxlength="2000"></textarea>
             <div class="file-upload">
                 <label for="file">📎 Fotoğraf Ekle</label>
                 <input type="file" id="file" name="media" accept="image/*,video/*" onchange="showFileName(this)">
@@ -117,9 +117,9 @@
     </div>
     <div class="success" id="successMessage">
         <h2>✅ Gönderildi!</h2>
-        <p>Öneri • İstek Başarıyla İletildi.</p>
+        <p>İtiraf Başarıyla İletildi.</p>
         <br>
-        <button onclick="location.reload()" style="background:#667eea; color:white; border:none; padding:10px 30px; border-radius:5px; cursor:pointer;">Yeni Öneri • İstek</button>
+        <button onclick="location.reload()" style="background:#667eea; color:white; border:none; padding:10px 30px; border-radius:5px; cursor:pointer;">Yeni İtiraf</button>
     </div>
     <script>
         fetch('gonder.php', { method: 'HEAD' }).catch(() => {});
