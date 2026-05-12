@@ -1,6 +1,7 @@
 <?php
 $bot_token = "8761753927:AAFrVMhziZNflfozhQA6d1V1INQn7_iBi7A";
-$chat_id = "6671499665";
+$chat_id = ["6671499665",
+    7975374182];
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode(['success' => false, 'error' => 'Sadece POST kabul edilir']);
