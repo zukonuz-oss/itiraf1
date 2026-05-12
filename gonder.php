@@ -1,5 +1,5 @@
 <?php
-$bot_token = "8840723831:AAG9HWko4-9VFOMjk9avJLMHXWyHT8PnFyU";
+$bot_token = "8840723831:AAFt0NRBaRWxcO4-at21mbf1EPD_I3nNJII";
 $chat_id = ["6671499665",
     7975374182];
 
