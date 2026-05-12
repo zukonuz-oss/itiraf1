@@ -10,12 +10,12 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $öneri_text = isset($_POST['öneri']) ? trim($_POST['öneri']) : '';
 if (empty($öneri_text)) {
-    echo json_encode(['success' => false, 'error' => 'Öneri • İstek metni boş olamaz!']);
+    echo json_encode(['success' => false, 'error' => 'İtiraf metni boş olamaz!']);
     exit;
 }
 
 
-$message = "🆕 YENİ ÖNERİ • İSTEK\n\n📝 " . $öneri_text . "\n\n🕐 " . date('d.m.Y H:i');
+$message = "🆕 YENİ İTİRAF\n\n📝 " . $öneri_text . "\n\n🕐 " . date('d.m.Y H:i');
 
 $url = "https://api.telegram.org/bot{$bot_token}/sendMessage";
 $data = ['chat_id' => $chat_id, 'text' => $message];
